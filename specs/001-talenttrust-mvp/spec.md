@@ -8,6 +8,25 @@
 
 **Input**: User description: "TalentTrust AI — copiloto B2B para recruiters que convierte un CV (PDF/DOCX) + una vacante estructurada en un dossier verificable y explicable del candidato (score 0–100 explicable, resumen, skills con evidencia, brechas, inconsistencias neutrales, preguntas de entrevista, recomendación no vinculante). El recruiter registra la decisión humana final y puede exportar el dossier a PDF."
 
+## Clarifications
+
+### Session 2026-06-04
+
+- Q: ¿Qué factores compondrán el desglose del score 0–100? → A: 6 factores con pesos fijos que suman
+  100 — skills/stack obligatorias (35), experiencia relevante (20), seniority (15),
+  modalidad/ubicación (10), evidencia/soporte (10), penalización por inconsistencias (10).
+- Q: ¿Qué señales de inconsistencia detecta la Fase 1? → A: Set completo (unión): fechas laborales
+  solapadas/ilógicas, gaps temporales grandes, seniority declarado vs años de experiencia, skill
+  declarada sin evidencia en el cuerpo del CV, idioma declarado vs idioma del CV, educación
+  incompleta/ambigua, y certificaciones mencionadas sin detalle verificable.
+- Q: ¿Política de retención/borrado de datos del candidato? → A: Borrado on-demand (hard delete) a
+  solicitud + TTL por defecto configurable por variable de entorno (ej. 180 días); sin purga
+  automática obligatoria en Fase 1.
+- Q: ¿Idiomas soportados del CV? → A: Español e inglés (parseo y dossier optimizados para español con
+  tolerancia a contenido en inglés); UI en español.
+- Q: ¿Límites de tipo y tamaño del archivo de CV? → A: Solo PDF y DOCX con texto extraíble, máximo
+  5 MB; PDFs escaneados como imagen (sin texto) se rechazan con error claro (OCR fuera de alcance).
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - Recruiter crea una vacante estructurada (Priority: P1)
@@ -160,8 +179,10 @@ un PDF que contiene las secciones del dossier y que la acción queda registrada.
 
 **Carga de CV y consentimiento**
 
-- **FR-007**: Los recruiters MUST poder subir el CV de un candidato en formato PDF o DOCX asociado a
-  una vacante.
+- **FR-007**: Los recruiters MUST poder subir el CV de un candidato asociado a una vacante,
+  restringido a formato PDF o DOCX con texto extraíble y un tamaño máximo de 5 MB; el sistema MUST
+  rechazar otros formatos, archivos mayores a 5 MB y PDFs escaneados como imagen (sin texto
+  extraíble) con un error claro.
 - **FR-008**: El sistema MUST capturar y versionar el consentimiento del candidato para el análisis
   antes de procesarlo, registrando qué se analizará y cuándo se otorgó.
 - **FR-009**: El sistema MUST rechazar la generación del dossier si no existe consentimiento
@@ -175,9 +196,11 @@ un PDF que contiene las secciones del dossier y que la acción queda registrada.
 - **FR-011**: El sistema MUST calcular un score de compatibilidad candidato↔vacante en escala 0–100.
 - **FR-012**: El score MUST ser determinístico y reproducible: el mismo CV y la misma vacante producen
   el mismo score y el mismo desglose.
-- **FR-013**: El sistema MUST persistir un desglose por factor (p. ej. stack/skills, experiencia
-  relevante, seniority, modalidad/ubicación, evidencia, riesgo/inconsistencias) cuyos componentes
-  ponderados reconcilian con el score final.
+- **FR-013**: El sistema MUST persistir un desglose por factor con pesos fijos que suman 100 —
+  skills/stack obligatorias (35), experiencia relevante (20), seniority (15), modalidad/ubicación
+  (10), evidencia/soporte (10) y penalización por inconsistencias (10) — cuyos componentes ponderados
+  reconcilian con el score final. Cuando un factor no aplique por falta de datos en la vacante, el
+  desglose MUST indicarlo sin penalizar arbitrariamente.
 - **FR-014**: El LLM MUST NOT producir ni modificar el score numérico; solo puede generar texto que
   explique un score ya calculado.
 - **FR-015**: El sistema MUST excluir del cálculo del score cualquier atributo sensible (edad, género,
@@ -190,8 +213,12 @@ un PDF que contiene las secciones del dossier y que la acción queda registrada.
 - **FR-017**: El sistema MUST listar las skills detectadas y, para cada conclusión relevante, MUST
   mostrar la fuente/evidencia que la respalda; no MUST mostrarse ninguna conclusión sin fuente.
 - **FR-018**: El sistema MUST identificar brechas del candidato frente a los requisitos de la vacante.
-- **FR-019**: El sistema MUST detectar inconsistencias y presentarlas en lenguaje neutral ("requiere
-  revisión"), sin formulaciones acusatorias.
+- **FR-019**: El sistema MUST detectar, como mínimo, las siguientes señales de inconsistencia y
+  presentarlas en lenguaje neutral ("requiere revisión"), sin formulaciones acusatorias: (a) fechas
+  laborales solapadas o ilógicas, (b) gaps temporales grandes, (c) seniority declarado vs años de
+  experiencia, (d) skill declarada sin evidencia en el cuerpo del CV, (e) idioma declarado vs idioma
+  del CV, (f) educación incompleta o ambigua, y (g) certificaciones mencionadas sin detalle
+  verificable.
 - **FR-020**: El sistema MUST generar preguntas de entrevista sugeridas relacionadas con las skills,
   brechas e inconsistencias del candidato.
 - **FR-021**: El sistema MUST presentar una recomendación explícitamente NO vinculante.
@@ -215,8 +242,11 @@ un PDF que contiene las secciones del dossier y que la acción queda registrada.
 - **FR-026**: El sistema MUST registrar en un audit log inmutable, como mínimo, los eventos
   `cv_parsed`, `dossier_generated`, `score_computed`, `decision_recorded` y `pdf_exported`, cada uno
   con actor, organización, objetivo y timestamp.
-- **FR-027**: El sistema MUST permitir eliminar los datos de un candidato a solicitud (derecho de
-  borrado) y MUST NOT retener datos del candidato más allá de lo necesario.
+- **FR-027**: El sistema MUST permitir eliminar los datos de un candidato a solicitud (hard delete) y
+  MUST soportar un período de retención por defecto configurable por variable de entorno (p. ej. 180
+  días); la purga automática de datos vencidos no es obligatoria en la Fase 1.
+- **FR-029**: El sistema MUST soportar CVs en español e inglés, optimizando el parseo y el dossier
+  para español con tolerancia a contenido en inglés; la interfaz se presenta en español.
 - **FR-028**: El sistema MUST NOT buscar antecedentes penales por nombre, MUST NOT scrapear datos
   sensibles de fuentes externas y MUST NOT fabricar conclusiones sin evidencia.
 
