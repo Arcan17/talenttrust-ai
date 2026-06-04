@@ -18,17 +18,17 @@
 
 ## Phase 1: Setup (project skeleton)
 
-- [ ] T001 Create backend project structure (`backend/app/{core,db,providers,models,schemas,services,scoring,workers,api/v1}`, `backend/tests/`, `backend/alembic/`) per plan.md
-- [ ] T002 Add `backend/pyproject.toml` with deps (FastAPI, SQLAlchemy 2.0, asyncpg, pydantic v2, alembic, celery, redis, pgvector, pymupdf, python-docx, weasyprint, python-jose, bcrypt, structlog) + ruff/mypy/pytest config
-- [ ] T003 [P] Add `backend/.env.example` documenting every variable (DB, Redis, JWT, provider keys, `LLM_PROVIDER=mock`, `EMBEDDING_PROVIDER=mock`, `CANDIDATE_DATA_TTL_DAYS=180`, `MAX_CV_SIZE_BYTES=5242880`, SEED_*)
-- [ ] T004 [P] Add `docker-compose.yml` (postgres+pgvector, redis, backend, worker, frontend)
-- [ ] T005 [P] Add `.github/workflows/ci.yml` (ruff → mypy → alembic upgrade → pytest with mock providers)
-- [ ] T006 [P] [reuse:agentdesk] Copy `app/core/{config.py,logging.py}` and adapt settings to TalentTrust env vars
-- [ ] T007 [reuse:agentdesk] Copy `app/db/{engine.py,session.py,base.py,types.py}` (async engine, UUID/Timestamp mixins, portable Embedding type)
-- [ ] T008 [P] [reuse:agentdesk] Copy `app/providers/{base.py,factory.py,mock.py,anthropic.py,openai.py}` (LLM/embedding interfaces, mock default)
-- [ ] T009 [reuse:agentdesk] Copy `backend/tests/conftest.py` (mock providers + in-memory SQLite + eager Celery fixtures)
-- [ ] T010 Create `app/main.py` app factory (CORS, rate limit, structured logging, exception handlers, router include) + `GET /health`
-- [ ] T011 Test: `tests/test_health.py` asserts `GET /health` → 200 (smoke; confirms skeleton boots)
+- [X] T001 Create backend project structure (`backend/app/{core,db,providers,models,schemas,services,scoring,workers,api/v1}`, `backend/tests/`, `backend/alembic/`) per plan.md
+- [X] T002 Add `backend/pyproject.toml` with deps (FastAPI, SQLAlchemy 2.0, asyncpg, pydantic v2, alembic, celery, redis, pgvector, pymupdf, python-docx, weasyprint, python-jose, bcrypt, structlog) + ruff/mypy/pytest config
+- [X] T003 [P] Add `backend/.env.example` documenting every variable (DB, Redis, JWT, provider keys, `LLM_PROVIDER=mock`, `EMBEDDING_PROVIDER=mock`, `CANDIDATE_DATA_TTL_DAYS=180`, `MAX_CV_SIZE_BYTES=5242880`, SEED_*)
+- [X] T004 [P] Add `docker-compose.yml` (postgres+pgvector, redis, backend, worker, frontend)
+- [X] T005 [P] Add `.github/workflows/ci.yml` (ruff → mypy → alembic upgrade → pytest with mock providers)
+- [X] T006 [P] [reuse:agentdesk] Copy `app/core/{config.py,logging.py}` and adapt settings to TalentTrust env vars
+- [X] T007 [reuse:agentdesk] Copy `app/db/{engine.py,session.py,base.py,types.py}` (async engine, UUID/Timestamp mixins, portable Embedding type)
+- [X] T008 [P] [reuse:agentdesk] Copy `app/providers/{base.py,factory.py,mock.py,anthropic.py,openai.py}` (LLM/embedding interfaces, mock default)
+- [X] T009 [reuse:agentdesk] Copy `backend/tests/conftest.py` (mock providers + in-memory SQLite + eager Celery fixtures)
+- [X] T010 Create `app/main.py` app factory (CORS, rate limit, structured logging, exception handlers, router include) + `GET /health`
+- [X] T011 Test: `tests/test_health.py` asserts `GET /health` → 200 (smoke; confirms skeleton boots)
 
 **Checkpoint**: backend boots, health green, `pytest` runs offline.
 
@@ -36,16 +36,16 @@
 
 ## Phase 2: Foundational — Auth, Multi-tenant, Audit (BLOCKS all user stories)
 
-- [ ] T012 [reuse:agentdesk] Copy/adapt `app/core/security.py` (JWT access+refresh, bcrypt hash/verify)
-- [ ] T013 [P] [reuse:agentdesk] Create `app/models/organization.py` (Organization) and `app/models/user.py` (User with role enum `org_admin|recruiter|viewer`, `uq_user_org_email`)
-- [ ] T014 [reuse:agentdesk] Copy/adapt `app/core/deps.py` (`get_db`, `get_current_user`) and `app/rbac.py` (`require_role`)
-- [ ] T015 [P] [reuse:agentdesk] Create `app/models/audit_log.py` (immutable AuditLogEntry) with `AuditEvent` enum incl. `cv_parsed, dossier_generated, score_computed, decision_recorded, pdf_exported, login_success, login_failed`
-- [ ] T016 [P] [reuse:agentdesk] Copy/adapt `app/services/audit_service.py` (append-only `record(...)`)
-- [ ] T017 [reuse:agentdesk] Create `app/api/v1/auth.py` (`POST /auth/login`, `POST /auth/refresh`) emitting login audit events + `app/schemas/auth.py`
-- [ ] T018 Create `app/seed.py` (seed Organization + recruiter user from env) wired into startup
-- [ ] T019 Alembic migration `0001_enable_pgvector` (CREATE EXTENSION vector) and `0002_org_user_audit` (organizations, users, audit_log)
-- [ ] T020 [P] Test: `tests/test_auth.py` (login success/failure, refresh, write rejected without token)
-- [ ] T021 [P] Test: `tests/test_rbac.py` (viewer gets 403 on writes; cross-org access returns 404)
+- [X] T012 [reuse:agentdesk] Copy/adapt `app/core/security.py` (JWT access+refresh, bcrypt hash/verify)
+- [X] T013 [P] [reuse:agentdesk] Create `app/models/organization.py` (Organization) and `app/models/user.py` (User with role enum `org_admin|recruiter|viewer`, `uq_user_org_email`)
+- [X] T014 [reuse:agentdesk] Copy/adapt `app/core/deps.py` (`get_db`, `get_current_user`) and `app/rbac.py` (`require_role`)
+- [X] T015 [P] [reuse:agentdesk] Create `app/models/audit_log.py` (immutable AuditLogEntry) with `AuditEvent` enum incl. `cv_parsed, dossier_generated, score_computed, decision_recorded, pdf_exported, login_success, login_failed`
+- [X] T016 [P] [reuse:agentdesk] Copy/adapt `app/services/audit_service.py` (append-only `record(...)`)
+- [X] T017 [reuse:agentdesk] Create `app/api/v1/auth.py` (`POST /auth/login`, `POST /auth/refresh`) emitting login audit events + `app/schemas/auth.py`
+- [X] T018 Create `app/seed.py` (seed Organization + recruiter user from env) wired into startup
+- [X] T019 Alembic migration `0001_enable_pgvector` (CREATE EXTENSION vector) and `0002_org_user_audit` (organizations, users, audit_log)
+- [X] T020 [P] Test: `tests/test_auth.py` (login success/failure, refresh, write rejected without token)
+- [X] T021 [P] Test: `tests/test_rbac.py` (viewer gets 403 on writes; cross-org access returns 404)
 
 **Checkpoint**: auth works, RBAC + org-scoping enforced, audit log writable. User stories can start.
 
@@ -87,7 +87,7 @@ identical score; no consent → 409; sensitive attribute change doesn't move the
 ### CV parsing (new)
 
 - [ ] T033 [US2] [new] Create `app/services/cv_parser.py`: validate type (pdf/docx) + size (≤5 MB); extract text with PyMuPDF/python-docx; reject empty/no-text; LLM (provider interface) structures text → `ParsedCV`. Emit `cv_parsed`
-- [ ] T034 [P] [US2] Test: `tests/test_cv_parser.py` (reject non-pdf/docx, >5 MB, no-text/image-only; happy path returns ParsedCV deterministically under mock)
+- [ ] T034 [P] [US2] Test: `tests/test_cv_parser.py` (reject non-pdf/docx, >5 MB, no-text/image-only; happy path returns ParsedCV deterministically under mock; **explicit ES and EN CV cases both parse** — FR-029)
 
 ### Scoring engine (reuse + invert) + fairness
 
@@ -107,7 +107,7 @@ identical score; no consent → 409; sensitive attribute change doesn't move the
 - [ ] T045 [US2] Create `app/api/v1/candidates.py` (`POST /vacancies/{id}/candidates` multipart upload+consent → 202; `GET /candidates/{id}`) and `app/api/v1/dossiers.py` (`POST /candidates/{id}/dossier`, `GET /candidates/{id}/dossier`)
 - [ ] T046 [US2] Alembic migration `0004_candidates_dossier` (candidates, candidate_documents, consents, dossiers, scores)
 - [ ] T047 [P] [US2] Test: `tests/test_consent_gate.py` (dossier without consent → 409)
-- [ ] T048 [P] [US2] Test: `tests/test_dossier.py` (every conclusion has evidence; inconsistencies neutral; full upload→dossier flow; audit entries `cv_parsed`/`score_computed`/`dossier_generated` written)
+- [ ] T048 [P] [US2] Test: `tests/test_dossier.py` (**guardrail: dossier_service rejects/omits any skill/gap/inconsistency conclusion lacking an evidence reference — no fabricated conclusions, FR-028**; inconsistencies neutral; full upload→dossier flow; audit entries `cv_parsed`/`score_computed`/`dossier_generated` written)
 
 **Checkpoint**: US1+US2 = demoable MVP — CV+vacancy → explainable, reproducible, evidence-based dossier.
 
@@ -135,7 +135,7 @@ shown, human outcome; `decision_recorded` in audit; no automatic final outcome e
 **Goal**: Recruiter exports the dossier (incl. recorded decision) to a shareable PDF.
 **Independent test**: Export a generated dossier → PDF with all sections; `pdf_exported` in audit.
 
-- [ ] T055 [US4] [new] Create `app/services/report_pdf.py` (render dossier → PDF via WeasyPrint HTML template; ReportLab fallback). Emit `pdf_exported`
+- [ ] T055 [US4] [new] Create `app/services/report_pdf.py` (render dossier → PDF via **ReportLab** for MVP; WeasyPrint deferred as future enhancement per research.md R7). Emit `pdf_exported`
 - [ ] T056 [US4] Add `POST /candidates/{id}/dossier/export` to `app/api/v1/exports.py` → `application/pdf`
 - [ ] T057 [P] [US4] Test: `tests/test_export.py` (PDF produced with dossier sections; `pdf_exported` audit entry)
 

@@ -62,12 +62,15 @@ open decisions were settled in `spec.md` → Clarifications, Session 2026-06-04)
 
 ## R7. PDF export
 
-- **Decision**: Render the dossier to PDF with WeasyPrint (HTML/CSS template) — fallback ReportLab if
-  the deploy target lacks WeasyPrint system deps. Emits `pdf_exported`.
-- **Rationale**: WeasyPrint produces clean, shareable, styled reports from an HTML template, matching
-  the recruiter-facing quality bar; ReportLab is a dependency-light fallback.
-- **Alternatives considered**: Headless-Chrome PDF (heavy runtime); client-side PDF (loses server-side
-  audit of the export event).
+- **Decision (fixed for MVP)**: Use **ReportLab first** for the dossier PDF — pure-Python, no system
+  dependencies, easy to test deterministically in CI. WeasyPrint (HTML/CSS template) is deferred as a
+  **future enhancement** only if the recruiter-facing report needs richer HTML/CSS layout. Emits
+  `pdf_exported`.
+- **Rationale**: ReportLab keeps the Phase-1 build dependency-light and the CI image simple (WeasyPrint
+  needs Cairo/Pango system libs). The dossier layout is straightforward (sections + a score table), so
+  ReportLab covers it without HTML rendering.
+- **Alternatives considered**: WeasyPrint-first (heavier deploy deps — deferred); headless-Chrome PDF
+  (heavy runtime); client-side PDF (loses server-side audit of the export event).
 
 ## R8. Multi-tenant auth, RBAC, audit, HITL, async jobs, test harness
 

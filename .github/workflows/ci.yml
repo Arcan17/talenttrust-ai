@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main, "**"]
+  pull_request:
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_USER: talenttrust
+          POSTGRES_PASSWORD: talenttrust
+          POSTGRES_DB: talenttrust
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U talenttrust"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      LLM_PROVIDER: mock
+      EMBEDDING_PROVIDER: mock
+      DATABASE_URL: postgresql+asyncpg://talenttrust:talenttrust@localhost:5432/talenttrust
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ".[dev]"
+      - name: Lint (ruff)
+        run: ruff check app tests
+      - name: Type check (mypy)
+        run: mypy app
+      - name: Migrations (alembic upgrade head against Postgres + pgvector)
+        run: alembic upgrade head
+      - name: Tests (mock providers, offline SQLite)
+        run: pytest -q
