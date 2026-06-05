@@ -31,6 +31,8 @@ class AuditEvent(enum.StrEnum):
     score_computed = "score_computed"
     decision_recorded = "decision_recorded"
     pdf_exported = "pdf_exported"
+    # Data retention / privacy
+    candidate_deleted = "candidate_deleted"
 
 
 class AuditLog(UUIDMixin, TimestampMixin, Base):

@@ -145,9 +145,9 @@ shown, human outcome; `decision_recorded` in audit; no automatic final outcome e
 
 ## Phase 7: Retention & deletion (cross-cutting, privacy by design)
 
-- [ ] T058 [new] Create `app/services/retention_service.py` (hard-delete candidate data on demand cascading document/consent/dossier/score/decisions; configurable TTL via `CANDIDATE_DATA_TTL_DAYS`)
-- [ ] T059 Add `DELETE /candidates/{id}` [org_admin] to candidates router → 204
-- [ ] T060 [P] Test: `tests/test_retention.py` (hard-delete removes all candidate-linked rows; cross-org delete → 404)
+- [X] T058 [new] Create `app/services/retention_service.py` (hard-delete candidate data on demand cascading document/consent/dossier/score/decisions; configurable TTL via `CANDIDATE_DATA_TTL_DAYS`)
+- [X] T059 Add `DELETE /candidates/{id}` [org_admin] to candidates router → 204
+- [X] T060 [P] Test: `tests/test_retention.py` (hard-delete removes all candidate-linked rows; cross-org delete → 404)
 
 ---
 

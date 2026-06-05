@@ -19,11 +19,12 @@ from app.models.consent import Consent
 from app.models.user import Role, User
 from app.rbac import require_role
 from app.schemas.candidate import CandidateOut, ConsentOut, DocumentOut
-from app.services import candidate_service, cv_parser
+from app.services import candidate_service, cv_parser, retention_service
 
 router = APIRouter(tags=["candidates"])
 
 _writer = require_role(Role.org_admin, Role.recruiter)
+_admin = require_role(Role.org_admin)
 
 
 def _to_out(
@@ -99,3 +100,23 @@ async def get_candidate(
             status_code=status.HTTP_404_NOT_FOUND, detail="Candidate not found"
         ) from exc
     return _to_out(candidate, document, consent)
+
+
+@router.delete("/candidates/{candidate_id}", status_code=status.HTTP_204_NO_CONTENT)
+async def delete_candidate(
+    candidate_id: uuid.UUID,
+    db: AsyncSession = Depends(get_db),
+    current: User = Depends(_admin),
+) -> None:
+    """Hard-delete a candidate and all linked personal data (org_admin only)."""
+    try:
+        await retention_service.delete_candidate(
+            db,
+            organization_id=current.organization_id,
+            actor_user_id=current.id,
+            candidate_id=candidate_id,
+        )
+    except retention_service.NotFoundError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND, detail="Candidate not found"
+        ) from exc
