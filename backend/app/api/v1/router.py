@@ -9,6 +9,7 @@ from app.api.v1 import (
     candidates,
     decisions,
     dossiers,
+    exports,
     health,
     scores,
     users,
@@ -24,3 +25,4 @@ api_router.include_router(candidates.router)
 api_router.include_router(scores.router)
 api_router.include_router(dossiers.router)
 api_router.include_router(decisions.router)
+api_router.include_router(exports.router)

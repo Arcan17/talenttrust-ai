@@ -135,9 +135,9 @@ shown, human outcome; `decision_recorded` in audit; no automatic final outcome e
 **Goal**: Recruiter exports the dossier (incl. recorded decision) to a shareable PDF.
 **Independent test**: Export a generated dossier → PDF with all sections; `pdf_exported` in audit.
 
-- [ ] T055 [US4] [new] Create `app/services/report_pdf.py` (render dossier → PDF via **ReportLab** for MVP; WeasyPrint deferred as future enhancement per research.md R7). Emit `pdf_exported`
-- [ ] T056 [US4] Add `POST /candidates/{id}/dossier/export` to `app/api/v1/exports.py` → `application/pdf`
-- [ ] T057 [P] [US4] Test: `tests/test_export.py` (PDF produced with dossier sections; `pdf_exported` audit entry)
+- [X] T055 [US4] [new] Create `app/services/report_pdf.py` (render dossier → PDF via **ReportLab** for MVP; WeasyPrint deferred as future enhancement per research.md R7). Emit `pdf_exported`
+- [X] T056 [US4] Add `POST /candidates/{id}/dossier/export` to `app/api/v1/exports.py` → `application/pdf`
+- [X] T057 [P] [US4] Test: `tests/test_export.py` (PDF produced with dossier sections; `pdf_exported` audit entry)
 
 **Checkpoint**: US4 adds shareable output.
 
