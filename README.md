@@ -8,7 +8,7 @@ candidate dossier — with deterministic scoring and human-owned final decisions
 > interview questions, and records an auditable human decision — keeping the recommendation
 > non-binding and the final call with a person.
 
-[![CI](https://github.com/USER/talenttrust-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/USER/talenttrust-ai/actions/workflows/ci.yml)
+[![CI](https://github.com/Arcan17/talenttrust-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/Arcan17/talenttrust-ai/actions/workflows/ci.yml)
 
 ---
 
