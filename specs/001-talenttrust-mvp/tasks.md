@@ -57,12 +57,12 @@
 **Independent test**: Create a vacancy with all fields → persisted & listed within the org; missing
 required field → 422; another org cannot see it.
 
-- [ ] T022 [P] [US1] Create `app/models/vacancy.py` (Vacancy: title, description, required_skills, desired_skills, modality, country, salary_min/max, seniority, requirements_embedding) per data-model.md
-- [ ] T023 [P] [US1] Create `app/schemas/vacancy.py` (VacancyCreate/VacancyOut, Pydantic v2 validation: title + ≥1 required_skill)
-- [ ] T024 [US1] Create `app/services/vacancy_service.py` (create/list/get, org-scoped; compute `requirements_embedding` via embedding provider)
-- [ ] T025 [US1] Create `app/api/v1/vacancies.py` (`POST /vacancies` [org_admin,recruiter], `GET /vacancies`, `GET /vacancies/{id}`)
-- [ ] T026 [US1] Alembic migration `0003_vacancies`
-- [ ] T027 [P] [US1] Test: `tests/test_vacancies.py` (create happy path, 422 on missing required fields, list scoping, cross-org 404)
+- [X] T022 [P] [US1] Create `app/models/vacancy.py` (Vacancy: title, description, required_skills, desired_skills, modality, country, salary_min/max, seniority, requirements_embedding) per data-model.md
+- [X] T023 [P] [US1] Create `app/schemas/vacancy.py` (VacancyCreate/VacancyOut, Pydantic v2 validation: title + ≥1 required_skill)
+- [X] T024 [US1] Create `app/services/vacancy_service.py` (create/list/get, org-scoped; compute `requirements_embedding` via embedding provider)
+- [X] T025 [US1] Create `app/api/v1/vacancies.py` (`POST /vacancies` [org_admin,recruiter], `GET /vacancies`, `GET /vacancies/{id}`)
+- [X] T026 [US1] Alembic migration `0003_vacancies`
+- [X] T027 [P] [US1] Test: `tests/test_vacancies.py` (create happy path, 422 on missing required fields, list scoping, cross-org 404)
 
 **Checkpoint**: US1 independently demoable — vacancy CRUD with validation and isolation.
 
