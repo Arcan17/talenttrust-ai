@@ -4,7 +4,16 @@ from __future__ import annotations
 
 from fastapi import APIRouter
 
-from app.api.v1 import auth, candidates, dossiers, health, scores, users, vacancies
+from app.api.v1 import (
+    auth,
+    candidates,
+    decisions,
+    dossiers,
+    health,
+    scores,
+    users,
+    vacancies,
+)
 
 api_router = APIRouter()
 api_router.include_router(health.router)
@@ -14,3 +23,4 @@ api_router.include_router(vacancies.router)
 api_router.include_router(candidates.router)
 api_router.include_router(scores.router)
 api_router.include_router(dossiers.router)
+api_router.include_router(decisions.router)

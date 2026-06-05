@@ -3,6 +3,7 @@ from app.models.audit_log import AuditEvent, AuditLog
 from app.models.candidate import Candidate, CandidateStatus
 from app.models.candidate_document import CandidateDocument, DocumentType
 from app.models.consent import Consent
+from app.models.decision import Decision, DecisionOutcome
 from app.models.dossier import Dossier
 from app.models.organization import Organization
 from app.models.score import Recommendation, Score
@@ -27,4 +28,6 @@ __all__ = [
     "Score",
     "Recommendation",
     "Dossier",
+    "Decision",
+    "DecisionOutcome",
 ]

@@ -119,12 +119,12 @@ identical score; no consent → 409; sensitive attribute change doesn't move the
 **Independent test**: Record each decision type → persisted with actor, timestamp, AI recommendation
 shown, human outcome; `decision_recorded` in audit; no automatic final outcome ever created.
 
-- [ ] T049 [P] [US3] Create `app/models/decision.py` (Decision: actor_user_id, ai_recommendation, human_outcome `interview|review|discard`, note, decided_at)
-- [ ] T050 [P] [US3] Create `app/schemas/decision.py`
-- [ ] T051 [US3] [reuse:agentdesk] Create `app/services/decision_service.py` adapting the ticket approve/reject HITL pattern: human-only creation, records AI recommendation shown. Emit `decision_recorded`
-- [ ] T052 [US3] Create `app/api/v1/decisions.py` (`POST /candidates/{id}/decision` [org_admin,recruiter], `GET /candidates/{id}/decision`)
-- [ ] T053 [US3] Alembic migration `0005_decisions`
-- [ ] T054 [P] [US3] Test: `tests/test_decision.py` (record decision persists all fields + audit; **no Decision/final outcome is ever created without an explicit human request** — FR-023)
+- [X] T049 [P] [US3] Create `app/models/decision.py` (Decision: actor_user_id, ai_recommendation, human_outcome `interview|review|discard`, note, decided_at)
+- [X] T050 [P] [US3] Create `app/schemas/decision.py`
+- [X] T051 [US3] [reuse:agentdesk] Create `app/services/decision_service.py` adapting the ticket approve/reject HITL pattern: human-only creation, records AI recommendation shown. Emit `decision_recorded`
+- [X] T052 [US3] Create `app/api/v1/decisions.py` (`POST /candidates/{id}/decision` [org_admin,recruiter], `GET /candidates/{id}/decision`)
+- [X] T053 [US3] Alembic migration `0005_decisions`
+- [X] T054 [P] [US3] Test: `tests/test_decision.py` (record decision persists all fields + audit; **no Decision/final outcome is ever created without an explicit human request** — FR-023)
 
 **Checkpoint**: US3 closes the loop with human accountability + audit trail.
 
