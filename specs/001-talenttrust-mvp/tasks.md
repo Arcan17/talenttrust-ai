@@ -167,10 +167,10 @@ shown, human outcome; `decision_recorded` in audit; no automatic final outcome e
 
 ## Phase 9: Polish & cross-cutting
 
-- [ ] T068 [P] Backend `README.md` + frontend `README.md` (run, test, env) referencing quickstart.md
-- [ ] T069 [P] Ensure structured logging + audit metadata (provider/model version, sources analyzed) on all five events
-- [ ] T070 Run full suite `LLM_PROVIDER=mock EMBEDDING_PROVIDER=mock pytest -q`; ruff + mypy clean; CI green
-- [ ] T071 [P] End-to-end smoke per quickstart.md (login → vacancy → CV+consent → dossier → decision → PDF → audit)
+- [X] T068 [P] Backend `README.md` + frontend `README.md` (run, test, env) referencing quickstart.md
+- [X] T069 [P] Ensure structured logging + audit metadata (provider/model version, sources analyzed) on all five events
+- [X] T070 Run full suite `LLM_PROVIDER=mock EMBEDDING_PROVIDER=mock pytest -q`; ruff + mypy clean; CI green
+- [X] T071 [P] End-to-end smoke per quickstart.md (login → vacancy → CV+consent → dossier → decision → PDF → audit)
 
 ---
 
