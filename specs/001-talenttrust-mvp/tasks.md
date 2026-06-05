@@ -156,10 +156,10 @@ shown, human outcome; `decision_recorded` in audit; no automatic final outcome e
 - [X] T061 [P] Scaffold `frontend/` (Next.js 15 App Router, Tailwind v4, TS) with `lib/{api.ts,types.ts,auth.ts}`
 - [X] T062 [P] Login page + auth token handling (`frontend/app/login/page.tsx`)
 - [X] T063 Vacancies: list + create form (`frontend/app/(dashboard)/vacancies/`)
-- [ ] T064 Candidate upload (CV + consent checkbox) UI (`frontend/app/(dashboard)/candidates/new/`)
-- [ ] T065 [reuse:jobops] Dossier view adapting `ScoreCard` + new `Breakdown`, `EvidenceList`, `DossierView` components (`frontend/components/`) showing score, per-factor breakdown, skills+evidence, gaps, neutral inconsistencies, interview questions, non-binding recommendation
-- [ ] T066 Decision panel (record interview/review/discard + note) + PDF export button
-- [ ] T067 [P] Display a visible non-binding disclaimer and a fairness/consent notice in the dossier UI
+- [X] T064 Candidate upload (CV + consent checkbox) UI (`frontend/app/(dashboard)/candidates/new/`)
+- [X] T065 [reuse:jobops] Dossier view adapting `ScoreCard` + new `Breakdown`, `EvidenceList`, `DossierView` components (`frontend/components/`) showing score, per-factor breakdown, skills+evidence, gaps, neutral inconsistencies, interview questions, non-binding recommendation
+- [X] T066 Decision panel (record interview/review/discard + note) + PDF export button
+- [X] T067 [P] Display a visible non-binding disclaimer and a fairness/consent notice in the dossier UI
 
 **Checkpoint**: full recruiter flow demoable end-to-end in the browser.
 

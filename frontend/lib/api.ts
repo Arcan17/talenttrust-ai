@@ -1,4 +1,14 @@
-import type { TokenPair, User, Vacancy, VacancyCreate } from "./types";
+import type {
+  Candidate,
+  Decision,
+  DecisionRequest,
+  Dossier,
+  Score,
+  TokenPair,
+  User,
+  Vacancy,
+  VacancyCreate,
+} from "./types";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
 
@@ -102,4 +112,95 @@ export function getVacancy(id: string): Promise<Vacancy> {
 
 export function createVacancy(payload: VacancyCreate): Promise<Vacancy> {
   return request<Vacancy>("/api/v1/vacancies", { method: "POST", body: payload });
+}
+
+// --- candidates / dossier / score / decision ---
+
+function authHeaders(): Record<string, string> {
+  const token = getAccessToken();
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
+
+async function parseError(res: Response): Promise<ApiError> {
+  let detail = `Error ${res.status}`;
+  try {
+    const data = await res.json();
+    if (typeof data?.detail === "string") detail = data.detail;
+  } catch {
+    // ignore non-JSON error bodies
+  }
+  return new ApiError(res.status, detail);
+}
+
+/** Upload a CV (multipart). The browser sets the multipart Content-Type/boundary. */
+export async function uploadCandidate(
+  vacancyId: string,
+  formData: FormData,
+): Promise<Candidate> {
+  let res: Response;
+  try {
+    res = await fetch(`${API_URL}/api/v1/vacancies/${vacancyId}/candidates`, {
+      method: "POST",
+      headers: authHeaders(),
+      body: formData,
+    });
+  } catch {
+    throw new ApiError(0, "No se pudo conectar con el servidor.");
+  }
+  if (!res.ok) throw await parseError(res);
+  return (await res.json()) as Candidate;
+}
+
+export function getCandidate(id: string): Promise<Candidate> {
+  return request<Candidate>(`/api/v1/candidates/${id}`);
+}
+
+export function generateDossier(id: string): Promise<Dossier> {
+  return request<Dossier>(`/api/v1/candidates/${id}/dossier`, { method: "POST" });
+}
+
+export function getDossier(id: string): Promise<Dossier> {
+  return request<Dossier>(`/api/v1/candidates/${id}/dossier`);
+}
+
+export function getScore(id: string): Promise<Score> {
+  return request<Score>(`/api/v1/candidates/${id}/score`);
+}
+
+export function createDecision(id: string, payload: DecisionRequest): Promise<Decision> {
+  return request<Decision>(`/api/v1/candidates/${id}/decision`, {
+    method: "POST",
+    body: payload,
+  });
+}
+
+export function getDecision(id: string): Promise<Decision> {
+  return request<Decision>(`/api/v1/candidates/${id}/decision`);
+}
+
+/** Export the dossier PDF. Returns the blob + suggested filename for client download. */
+export async function exportDossierPdf(
+  id: string,
+): Promise<{ blob: Blob; filename: string }> {
+  let res: Response;
+  try {
+    res = await fetch(`${API_URL}/api/v1/candidates/${id}/dossier/export`, {
+      method: "POST",
+      headers: authHeaders(),
+    });
+  } catch {
+    throw new ApiError(0, "No se pudo conectar con el servidor.");
+  }
+  if (!res.ok) throw await parseError(res);
+
+  const contentType = res.headers.get("content-type") ?? "";
+  if (!contentType.includes("application/pdf")) {
+    throw new ApiError(res.status, "La respuesta no es un PDF válido.");
+  }
+
+  const blob = await res.blob();
+  const disposition = res.headers.get("content-disposition") ?? "";
+  const match = disposition.match(/filename="?([^"]+)"?/);
+  const filename = match?.[1] ?? `talenttrust-dossier-${id}.pdf`;
+  return { blob, filename };
 }
