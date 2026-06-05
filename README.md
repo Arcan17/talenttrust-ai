@@ -9,6 +9,12 @@ candidate dossier — with deterministic scoring and human-owned final decisions
 > non-binding and the final call with a person.
 
 [![CI](https://github.com/Arcan17/talenttrust-ai/actions/workflows/ci.yml/badge.svg)](https://github.com/Arcan17/talenttrust-ai/actions/workflows/ci.yml)
+![Python](https://img.shields.io/badge/Python-3.11-3776AB?logo=python&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-async-009688?logo=fastapi&logoColor=white)
+![Next.js](https://img.shields.io/badge/Next.js-15-000000?logo=nextdotjs&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16%20%2B%20pgvector-4169E1?logo=postgresql&logoColor=white)
+![Tests](https://img.shields.io/badge/tests-97%20passing-brightgreen)
+![License](https://img.shields.io/badge/license-MIT-blue)
 
 ---
 
@@ -63,23 +69,23 @@ Run it end-to-end with one command (backend must be up): `./scripts/smoke_e2e.sh
 
 ```mermaid
 flowchart LR
-  subgraph FE[Frontend — Next.js 15]
-    UI[Recruiter dashboard]
+  subgraph FE["Frontend — Next.js 15"]
+    UI["Recruiter dashboard"]
   end
-  subgraph BE[Backend — FastAPI]
-    API[API v1]
-    SVC[Services]
-    SCORE[Scoring engine\nweights + components + fairness_guard]
-    PROV[Provider abstraction\nmock / openai / anthropic]
-    AUDIT[Immutable audit log]
+  subgraph BE["Backend — FastAPI"]
+    API["API v1"]
+    SVC["Services"]
+    SCORE["Scoring engine<br/>weights + components + fairness_guard"]
+    PROV["Provider abstraction<br/>mock / openai / anthropic"]
+    AUDIT["Immutable audit log"]
   end
-  DB[(PostgreSQL 16\n+ pgvector)]
-  UI -->|JWT, JSON, multipart| API --> SVC
+  DB[("PostgreSQL 16<br/>+ pgvector")]
+  UI -->|"JWT, JSON, multipart"| API --> SVC
   SVC --> SCORE
   SVC --> PROV
   SVC --> AUDIT
   SVC --> DB
-  SCORE -.embeddings.-> PROV
+  SCORE -. embeddings .-> PROV
 ```
 
 **Pipeline:** `CV (PDF/DOCX) → cv_parser → fairness_guard → scoring (deterministic) → inconsistency_detector → interview_questions → dossier → human decision → PDF`. The LLM is used only for the
@@ -224,3 +230,7 @@ just the happy path.
 Backend details: [`backend/README.md`](backend/README.md) · Frontend details:
 [`frontend/README.md`](frontend/README.md) · Constitution & specs:
 [`specs/001-talenttrust-mvp/`](specs/001-talenttrust-mvp/).
+
+## License
+
+[MIT](LICENSE) © Bastian Altamirano
