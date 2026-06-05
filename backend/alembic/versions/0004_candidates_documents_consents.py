@@ -11,7 +11,7 @@ from collections.abc import Sequence
 import sqlalchemy as sa
 from alembic import op
 
-revision: str = "0004_candidates_documents_consents"
+revision: str = "0004_candidates"
 down_revision: str | None = "0003_vacancies"
 branch_labels: str | Sequence[str] | None = None
 depends_on: str | Sequence[str] | None = None
