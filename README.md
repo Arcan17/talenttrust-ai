@@ -95,9 +95,20 @@ narrative/summary and never for the numeric score.
 
 ## Screenshots
 
-Placeholders to capture — see [`docs/screenshots/README.md`](docs/screenshots/README.md):
-login · vacancies list · vacancy detail (CV upload) · candidate dossier · score breakdown ·
-human decision · PDF export.
+**Candidate dossier** — deterministic 0–100 score + breakdown, evidence-based skills, gaps, neutral
+inconsistencies, suggested interview questions, the recorded human decision, and an advisory
+disclaimer — all in one view:
+
+![Candidate dossier](docs/screenshots/04-candidate-dossier.png)
+
+| | |
+|---|---|
+| ![Login](docs/screenshots/01-login.png) | ![Vacancies](docs/screenshots/02-vacancies-list.png) |
+| Login | Vacancies (list + create) |
+| ![Vacancy detail + CV upload](docs/screenshots/03-vacancy-detail-upload.png) | ![Score breakdown](docs/screenshots/05-score-breakdown.png) |
+| Vacancy detail + CV upload (with consent) | Explainable score breakdown |
+| ![Human decision](docs/screenshots/06-human-decision.png) | ![Exported PDF](docs/screenshots/07-pdf-export.png) |
+| Human decision (non-binding AI recommendation as context) | Exported dossier PDF |
 
 ## Quickstart (Docker Compose)
 

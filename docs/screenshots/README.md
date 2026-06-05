@@ -1,8 +1,11 @@
-# Screenshots (to capture)
+# Screenshots
 
-Real screenshots are not yet committed. Capture the following from a running instance
-(backend on :8000 with mock providers + frontend on :3000) and drop the PNGs in this folder,
-then reference them from the root `README.md`.
+Real screenshots captured from a running instance (backend on :8000 with mock providers +
+frontend on :3000) and referenced from the root `README.md`. The PDF preview (07) is the first
+page of an actual exported dossier rendered to PNG.
+
+To regenerate them, run the backend + frontend, seed data (e.g. via `scripts/smoke_e2e.sh` or the
+quickstart), then recapture with a headless browser.
 
 | File | Screen | What it should show |
 |------|--------|---------------------|
