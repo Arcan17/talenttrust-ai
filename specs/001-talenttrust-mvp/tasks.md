@@ -91,12 +91,12 @@ identical score; no consent → 409; sensitive attribute change doesn't move the
 
 ### Scoring engine (reuse + invert) + fairness
 
-- [ ] T035 [US2] [reuse:jobops] Create `app/scoring/weights.py` with the 6 fixed factors (skills 35, experience 20, seniority 15, modality_location 10, evidence 10, inconsistency_penalty 10)
-- [ ] T036 [US2] [reuse:jobops] Create `app/scoring/components.py` (deterministic sub-scores; embeddings for skills/experience/evidence, rules for seniority/modality) inverted to candidate↔vacancy, 0–100 scale
-- [ ] T037 [US2] [new] Create `app/scoring/fairness_guard.py` (strip sensitive attributes before scoring)
-- [ ] T038 [US2] [reuse:jobops] Create `app/services/scoring_service.py` (compute components → 0–100 value + persisted breakdown; LLM narrative that never alters the number). Emit `score_computed`
-- [ ] T039 [P] [US2] Test: `tests/test_scoring.py` — weights sum to 100; breakdown reconciles to value; **same input → identical score** (reproducibility); strong vs weak ordering
-- [ ] T040 [P] [US2] Test: `tests/test_fairness.py` — mutating only a sensitive attribute (age/marital status) leaves the score unchanged (SC-006)
+- [X] T035 [US2] [reuse:jobops] Create `app/scoring/weights.py` with the 6 fixed factors (skills 35, experience 20, seniority 15, modality_location 10, evidence 10, inconsistency_penalty 10)
+- [X] T036 [US2] [reuse:jobops] Create `app/scoring/components.py` (deterministic sub-scores; embeddings for skills/experience/evidence, rules for seniority/modality) inverted to candidate↔vacancy, 0–100 scale
+- [X] T037 [US2] [new] Create `app/scoring/fairness_guard.py` (strip sensitive attributes before scoring)
+- [X] T038 [US2] [reuse:jobops] Create `app/services/scoring_service.py` (compute components → 0–100 value + persisted breakdown; LLM narrative that never alters the number). Emit `score_computed`
+- [X] T039 [P] [US2] Test: `tests/test_scoring.py` — weights sum to 100; breakdown reconciles to value; **same input → identical score** (reproducibility); strong vs weak ordering
+- [X] T040 [P] [US2] Test: `tests/test_fairness.py` — mutating only a sensitive attribute (age/marital status) leaves the score unchanged (SC-006)
 
 ### Inconsistencies, interview questions, dossier assembly (new)
 

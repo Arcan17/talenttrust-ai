@@ -4,6 +4,7 @@ from app.models.candidate import Candidate, CandidateStatus
 from app.models.candidate_document import CandidateDocument, DocumentType
 from app.models.consent import Consent
 from app.models.organization import Organization
+from app.models.score import Recommendation, Score
 from app.models.user import Role, User
 from app.models.vacancy import Modality, Seniority, Vacancy, VacancyStatus
 
@@ -22,4 +23,6 @@ __all__ = [
     "CandidateDocument",
     "DocumentType",
     "Consent",
+    "Score",
+    "Recommendation",
 ]
