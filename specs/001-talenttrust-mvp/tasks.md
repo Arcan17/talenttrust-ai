@@ -81,8 +81,8 @@ identical score; no consent → 409; sensitive attribute change doesn't move the
 - [X] T028 [P] [US2] Create `app/models/candidate.py` (Candidate: vacancy_id, display_name, status `received|analyzed`)
 - [X] T029 [P] [US2] Create `app/models/candidate_document.py` (CandidateDocument: filename, content_type, size_bytes, sha256, raw_text, parsed JSON)
 - [X] T030 [P] [US2] Create `app/models/consent.py` (Consent: version, scope, granted_at, granted_by_user_id; append-only)
-- [ ] T031 [P] [US2] Create `app/models/dossier.py` (Dossier: summary, skills[{name,evidence[]}], gaps, inconsistencies, interview_questions, recommendation) and `app/models/score.py` (value 0–100, breakdown JSON, narrative JSON) [reuse:jobops score shape]
-- [ ] T032 [P] [US2] Create `app/schemas/{candidate,dossier,score}.py` (Pydantic v2; ParsedCV schema for structured CV)
+- [X] T031 [P] [US2] Create `app/models/dossier.py` (Dossier: summary, skills[{name,evidence[]}], gaps, inconsistencies, interview_questions, recommendation) and `app/models/score.py` (value 0–100, breakdown JSON, narrative JSON) [reuse:jobops score shape]
+- [X] T032 [P] [US2] Create `app/schemas/{candidate,dossier,score}.py` (Pydantic v2; ParsedCV schema for structured CV)
 
 ### CV parsing (new)
 
@@ -100,14 +100,14 @@ identical score; no consent → 409; sensitive attribute change doesn't move the
 
 ### Inconsistencies, interview questions, dossier assembly (new)
 
-- [ ] T041 [P] [US2] [new] Create `app/services/inconsistency_detector.py` (7 signals from FR-019; neutral "requires review"; evidence refs)
-- [ ] T042 [P] [US2] [new] Create `app/services/interview_questions.py` (LLM over dossier+gaps; explanatory only)
-- [ ] T043 [US2] Create `app/services/dossier_service.py` orchestrating parse → fairness → score → inconsistencies → questions → assemble Dossier; enforce evidence-on-every-conclusion; consent gate (409 if none). Emit `dossier_generated`
+- [X] T041 [P] [US2] [new] Create `app/services/inconsistency_detector.py` (7 signals from FR-019; neutral "requires review"; evidence refs)
+- [X] T042 [P] [US2] [new] Create `app/services/interview_questions.py` (LLM over dossier+gaps; explanatory only)
+- [X] T043 [US2] Create `app/services/dossier_service.py` orchestrating parse → fairness → score → inconsistencies → questions → assemble Dossier; enforce evidence-on-every-conclusion; consent gate (409 if none). Emit `dossier_generated`
 - [ ] T044 [US2] [reuse:agentdesk] Create `app/workers/{celery_app.py,tasks.py}` running the CV-analysis pipeline async with eager flag for tests
-- [ ] T045 [US2] Create `app/api/v1/candidates.py` (`POST /vacancies/{id}/candidates` multipart upload+consent → 202; `GET /candidates/{id}`) and `app/api/v1/dossiers.py` (`POST /candidates/{id}/dossier`, `GET /candidates/{id}/dossier`)
-- [ ] T046 [US2] Alembic migration `0004_candidates_dossier` (candidates, candidate_documents, consents, dossiers, scores)
-- [ ] T047 [P] [US2] Test: `tests/test_consent_gate.py` (dossier without consent → 409)
-- [ ] T048 [P] [US2] Test: `tests/test_dossier.py` (**guardrail: dossier_service rejects/omits any skill/gap/inconsistency conclusion lacking an evidence reference — no fabricated conclusions, FR-028**; inconsistencies neutral; full upload→dossier flow; audit entries `cv_parsed`/`score_computed`/`dossier_generated` written)
+- [X] T045 [US2] Create `app/api/v1/candidates.py` (`POST /vacancies/{id}/candidates` multipart upload+consent → 202; `GET /candidates/{id}`) and `app/api/v1/dossiers.py` (`POST /candidates/{id}/dossier`, `GET /candidates/{id}/dossier`)
+- [X] T046 [US2] Alembic migration `0004_candidates_dossier` (candidates, candidate_documents, consents, dossiers, scores)
+- [X] T047 [P] [US2] Test: `tests/test_consent_gate.py` (dossier without consent → 409)
+- [X] T048 [P] [US2] Test: `tests/test_dossier.py` (**guardrail: dossier_service rejects/omits any skill/gap/inconsistency conclusion lacking an evidence reference — no fabricated conclusions, FR-028**; inconsistencies neutral; full upload→dossier flow; audit entries `cv_parsed`/`score_computed`/`dossier_generated` written)
 
 **Checkpoint**: US1+US2 = demoable MVP — CV+vacancy → explainable, reproducible, evidence-based dossier.
 
