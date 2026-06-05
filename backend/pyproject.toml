@@ -23,6 +23,9 @@ dependencies = [
     "structlog>=24.4",
     "slowapi>=0.1.9",
     "email-validator>=2.2",
+    "python-multipart>=0.0.12",
+    "pymupdf>=1.24",
+    "python-docx>=1.1",
 ]
 
 [project.optional-dependencies]

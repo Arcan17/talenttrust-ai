@@ -78,16 +78,16 @@ identical score; no consent → 409; sensitive attribute change doesn't move the
 
 ### Models & schemas
 
-- [ ] T028 [P] [US2] Create `app/models/candidate.py` (Candidate: vacancy_id, display_name, status `received|analyzed`)
-- [ ] T029 [P] [US2] Create `app/models/candidate_document.py` (CandidateDocument: filename, content_type, size_bytes, sha256, raw_text, parsed JSON)
-- [ ] T030 [P] [US2] Create `app/models/consent.py` (Consent: version, scope, granted_at, granted_by_user_id; append-only)
+- [X] T028 [P] [US2] Create `app/models/candidate.py` (Candidate: vacancy_id, display_name, status `received|analyzed`)
+- [X] T029 [P] [US2] Create `app/models/candidate_document.py` (CandidateDocument: filename, content_type, size_bytes, sha256, raw_text, parsed JSON)
+- [X] T030 [P] [US2] Create `app/models/consent.py` (Consent: version, scope, granted_at, granted_by_user_id; append-only)
 - [ ] T031 [P] [US2] Create `app/models/dossier.py` (Dossier: summary, skills[{name,evidence[]}], gaps, inconsistencies, interview_questions, recommendation) and `app/models/score.py` (value 0–100, breakdown JSON, narrative JSON) [reuse:jobops score shape]
 - [ ] T032 [P] [US2] Create `app/schemas/{candidate,dossier,score}.py` (Pydantic v2; ParsedCV schema for structured CV)
 
 ### CV parsing (new)
 
-- [ ] T033 [US2] [new] Create `app/services/cv_parser.py`: validate type (pdf/docx) + size (≤5 MB); extract text with PyMuPDF/python-docx; reject empty/no-text; LLM (provider interface) structures text → `ParsedCV`. Emit `cv_parsed`
-- [ ] T034 [P] [US2] Test: `tests/test_cv_parser.py` (reject non-pdf/docx, >5 MB, no-text/image-only; happy path returns ParsedCV deterministically under mock; **explicit ES and EN CV cases both parse** — FR-029)
+- [X] T033 [US2] [new] Create `app/services/cv_parser.py`: validate type (pdf/docx) + size (≤5 MB); extract text with PyMuPDF/python-docx; reject empty/no-text; LLM (provider interface) structures text → `ParsedCV`. Emit `cv_parsed`
+- [X] T034 [P] [US2] Test: `tests/test_cv_parser.py` (reject non-pdf/docx, >5 MB, no-text/image-only; happy path returns ParsedCV deterministically under mock; **explicit ES and EN CV cases both parse** — FR-029)
 
 ### Scoring engine (reuse + invert) + fairness
 
